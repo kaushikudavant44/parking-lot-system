@@ -36,141 +36,133 @@ import com.ezest.service.VehicleService;
 @Service
 public class ParkingServiceImpl implements ParkingService {
 
-	 @Autowired
-	    private ParkingRepository parkingRepository;
+	Logger logger = LoggerFactory.getLogger(ParkingService.class);
 
-	    @Autowired
-	    private VehicleService vehicleService;
+	@Autowired
+	private ParkingRepository parkingRepository;
 
-	    @Autowired
-	    private ParkingLotService parkingLotService;
-	    
-	    @Autowired
-	    private ParkingLotRepository parkingLotRepository;
+	@Autowired
+	private VehicleService vehicleService;
 
-	    public List<Parking> getParkingList() {
-	        return parkingRepository.findAll();
-	    }
+	@Autowired
+	private ParkingLotService parkingLotService;
 
-	    Logger logger = LoggerFactory.getLogger(ParkingService.class);
+	@Autowired
+	private ParkingLotRepository parkingLotRepository;
 
+	public List<Parking> getParkingList() {
+		return parkingRepository.findAll();
+	}
 
-	    @Transactional
-	    public Parking createParkingRecord(Vehicle comingVehicle)
-	    {
-	        Vehicle vehicle=checkIfVehicleExists(comingVehicle);
-	        checkIfVehicleAlreadyParked(vehicle);
+	@Transactional
+	public Parking createParkingRecord(Vehicle comingVehicle) {
+		Vehicle vehicle = checkIfVehicleExists(comingVehicle);
+		checkIfVehicleAlreadyParked(vehicle);
+		ParkingLot parkingLot = findSuitableLot(vehicle.getVehicleType());
 
-	        ParkingLot parkingLot = findSuitableLot(vehicle.getVehicleType());
+		if (parkingLot != null) {
+			parkingLot.setLotSize(parkingLot.getLotSize() - 1);
+			Parking parking = parkingRepository.save(new Parking(parkingLot.getName(), vehicle.getVehicleRegistrationNumber(),
+					java.time.LocalDateTime.now(), null, ParkingStatus.RESERVE, 0));
+			parkingLotRepository.save(parkingLot);
+			return parking;
 
-	        if (parkingLot != null) {
-	        	Parking parking = parkingRepository.save(new Parking(parkingLot.getName(), vehicle.getVehicleRegistrationNumber(), java.time.LocalDateTime.now(), null, ParkingStatus.RESERVE, 0));
-	        	parkingLot.setLotSize(parkingLot.getLotSize()-1);
-	        	parkingLotRepository.save(parkingLot);
-	        	return parking;
+		} else {
+			throw new ParkingLotNotFoundException();
+		}
 
-	        } else {
-	            throw new ParkingLotNotFoundException();
-	        }
+	}
 
-	    }
+	@Transactional
+	public Parking updateParkingRecord(int parkingId) {
+		LocalDateTime checkOutDate = java.time.LocalDateTime.now();
+		double unitPrice = 0;
 
-	    @Transactional
-	    public Parking updateParkingRecord(int parkingId)
-	    {
-	        LocalDateTime checkOutDate = java.time.LocalDateTime.now();
-	        double unitPrice=0;
+		logger.debug("Checking existing parking records, if not found throw an exception");
+		Parking existingParking = parkingRepository.getParkingByParkingId(parkingId)
+				.orElseThrow(ParkingRecordNotFoundException::new);
 
-	        logger.debug("Checking existing parking records, if not found throw an exception");
-	        Parking existingParking = parkingRepository.getParkingByParkingId(parkingId)
-	                .orElseThrow(ParkingRecordNotFoundException::new);
+		logger.debug("No record exists checking end date.");
+		if (existingParking.getEndDate() != null)
+			throw new VehicleAlreadyCheckedOutException();
 
-	        logger.debug("No record exists checking end date.");
-	        if (existingParking.getEndDate() != null)
-	            throw new VehicleAlreadyCheckedOutException();
+		logger.debug("Find price for the lot");
+		Optional<ParkingLot> parkingLot = parkingLotService.findByName(existingParking.getParkingLot());
 
-	        logger.debug("Find price for the lot");
-	        Optional<ParkingLot> parkingLot = parkingLotService.findByName(existingParking.getParkingLot());
+		logger.debug("Calculating price for the lot");
+		if (parkingLot.isPresent()) {
+			unitPrice = parkingLot.get().getPrice();
+		} else {
+			throw new ParkingLotNotFoundException();
+		}
 
+		logger.debug("Setting end date and price for record, setting lot as not empty");
+		existingParking.setEndDate(checkOutDate);
+		existingParking.setPrice(calculatePrice(existingParking.getStartDate(), checkOutDate, unitPrice));
+		existingParking.setParkingStatus(ParkingStatus.EMPTY);
+		Parking parkingVehicleCheckout = parkingRepository.save(existingParking);
+		parkingLot.get().setLotSize(parkingLot.get().getLotSize() + 1);
+		parkingLotRepository.save(parkingLot.get());
+		return parkingVehicleCheckout;
 
-	        logger.debug("Calculating price for the lot");
-	        if(parkingLot.isPresent()) {
-	        unitPrice = parkingLot.get().getPrice();
-	        }else {
-	        	throw new ParkingLotNotFoundException();
-	        }
+	}
 
-	        logger.debug("Setting end date and price for record, setting lot as not empty");
-	        existingParking.setEndDate(checkOutDate);
-	        existingParking.setPrice(calculatePrice(existingParking.getStartDate(), checkOutDate, unitPrice));
-	      //  parkingLot.setEmpty(true);
-	        existingParking.setParkingStatus(ParkingStatus.EMPTY);
-	        Parking parkingVehicleCheckout = parkingRepository.save(existingParking);
-	        parkingLot.get().setLotSize(parkingLot.get().getLotSize()+1);
-	        parkingLotRepository.save(parkingLot.get());
-	        return parkingVehicleCheckout;
+	public ParkingLot findSuitableLot(VehicleType lotVehicleType) {
 
-	    }
+		List<ParkingLot> parkingLotList = parkingLotService.findAllByVehicleType(lotVehicleType);
+		logger.debug("Getting suitable lot lists with looking height first.");
 
+		if (parkingLotList != null) {
+			for (ParkingLot parkingLot : parkingLotList) {
 
-		public ParkingLot findSuitableLot(VehicleType lotVehicleType) {
+				if (parkingLot.getLotSize() != 0) {
+					logger.debug("Found a suitable lot " + parkingLot.getName());
+					return parkingLot;
+				}
 
-	        List<ParkingLot> parkingLotList = parkingLotService.findAllByVehicleType(lotVehicleType);
-	        logger.debug("Getting suitable lot lists with looking height first.");
-
-	        if (parkingLotList != null) {
-	            for (ParkingLot parkingLot : parkingLotList) {
-	               
-	            		if(parkingLot.getLotSize()!=0) {
-	                    logger.debug("Found a suitable lot " + parkingLot.getName());
-	                    return parkingLot;
-	            		}
-	                
-	            }
-	        }
-	        logger.debug("Could not found a suitable lot.");
-	        throw new ParkingLotNotFoundException();
-	    }
-
-	    public double calculatePrice(LocalDateTime checkInDate, LocalDateTime checkOutDate, double price) {
-	        int hours = (int) ChronoUnit.HOURS.between(checkInDate, checkOutDate);
-	        logger.debug("Price is calculated for " + hours);
-	        if(hours<=2) {
-	        	return price; 
-	        }
-	        return price + (hours-2 * 10);
-	    }
-
-	    public Vehicle checkIfVehicleExists(Vehicle vehicle)
-	    {
-	        Optional<Vehicle> comingVehicle = vehicleService.findVehicleByPlate(vehicle.getVehicleRegistrationNumber());
-
-	        if (comingVehicle.isPresent())
-	        {
-	            vehicle = comingVehicle.get();
-	            logger.debug("Vehicle " + vehicle.getId() + "exists.");
-	            return vehicle;
-	        }
-	        else{
-	            logger.debug("Vehicle is not exists. Creating a new vehicle.");
-	            return vehicleService.createVehicle(vehicle);
-	        }
-	    }
-
-		public void checkIfVehicleAlreadyParked(Vehicle vehicle) {
-			// Check if vehicle already in the park
-			Optional<Parking> oldPark = parkingRepository.findByVehicleRegistrationNumberAndParkingStatus(vehicle.getVehicleRegistrationNumber(),
-					ParkingStatus.RESERVE);
-			
-			if(oldPark.isPresent()) {
-				logger.debug("Vehicle already checked-in");
-				throw new VehicleAlreadyCheckedInException();
 			}
 		}
+		logger.debug("Could not found a suitable lot.");
+		throw new ParkingLotNotFoundException();
+	}
 
-		@Override
-		public Parking getCurrentParkedVehicleByLicencePlate(String licencePlate) {
-			return parkingRepository.findByVehicleRegistrationNumberAndParkingStatus(licencePlate, ParkingStatus.RESERVE).get();
+	public double calculatePrice(LocalDateTime checkInDate, LocalDateTime checkOutDate, double price) {
+		int hours = (int) ChronoUnit.HOURS.between(checkInDate, checkOutDate);
+		logger.debug("Price is calculated for " + hours);
+		if (hours <= 2) {
+			return price;
 		}
+		return price + ((hours - 2) * 10);
+	}
+
+	public Vehicle checkIfVehicleExists(Vehicle vehicle) {
+		Optional<Vehicle> comingVehicle = vehicleService.findVehicleByPlate(vehicle.getVehicleRegistrationNumber());
+
+		if (comingVehicle.isPresent()) {
+			vehicle = comingVehicle.get();
+			logger.debug("Vehicle " + vehicle.getId() + "exists.");
+			return vehicle;
+		} else {
+			logger.debug("Vehicle is not exists. Creating a new vehicle.");
+			return vehicleService.createVehicle(vehicle);
+		}
+	}
+
+	public void checkIfVehicleAlreadyParked(Vehicle vehicle) {
+		// Check if vehicle already in the park
+		Optional<Parking> oldPark = parkingRepository.findByVehicleRegistrationNumberAndParkingStatus(
+				vehicle.getVehicleRegistrationNumber(), ParkingStatus.RESERVE);
+
+		if (oldPark.isPresent()) {
+			logger.debug("Vehicle already checked-in");
+			throw new VehicleAlreadyCheckedInException();
+		}
+	}
+
+	@Override
+	public Parking getCurrentParkedVehicleByLicencePlate(String licencePlate) {
+		return parkingRepository.findByVehicleRegistrationNumberAndParkingStatus(licencePlate, ParkingStatus.RESERVE)
+				.get();
+	}
 
 }

@@ -2,6 +2,7 @@ package com.ezest.model;
 
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.ezest.enumerators.VehicleType;
 
@@ -37,6 +38,7 @@ public class ParkingLot
     private VehicleType lotVehicleType;
     
     @NotBlank(message = "Lot Size cannot be null")
+    @PositiveOrZero
     private Long lotSize; 
 
     @Column(name = "LOT_PRICE")

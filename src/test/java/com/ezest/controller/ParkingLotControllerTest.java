@@ -70,7 +70,7 @@ class ParkingLotControllerTest {
 	
 	@Test
 	void testGetAllParkingLots() {
-		List<ParkingLot> parkingLots = new ArrayList();
+		List<ParkingLot> parkingLots = new ArrayList<>();
 		when(parkingLotService.getParkingLots()).thenReturn(parkingLots);
 		ResponseEntity<List<ParkingLot>> responseEntity = parkingLotController.getAllParkingLots();
 		assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
