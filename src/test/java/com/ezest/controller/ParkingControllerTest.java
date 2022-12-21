@@ -5,6 +5,8 @@
 package com.ezest.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -71,19 +74,23 @@ class ParkingControllerTest {
 	 * Test method for {@link com.ezest.controller.ParkingController#getAllParkingRecords()}.
 	 */
 	@Test
+	@DisplayName("Get all parking records")
 	void testGetAllParkingRecords() {
 		
 		List<Parking> parkings=new ArrayList<>();	
 		parkings.add(parking);
 		when(parkingService.getParkingList()).thenReturn(parkings);
 		List<Parking> parkingResponse = parkingController.getAllParkingRecords();
-		assertTrue(parkings.size() == parkingResponse.size() && parkings.containsAll(parkingResponse) && parkingResponse.containsAll(parkings));
-	}
+		assertAll("parking records",
+		        () -> assertEquals(parkings.size(), parkingResponse.size()),
+		        () -> assertTrue(parkings.containsAll(parkingResponse)));
+		}
 
 	/**
 	 * Test method for {@link com.ezest.controller.ParkingController#getCurrentParkingRecords()}.
 	 */
 	@Test
+	@DisplayName("Get all currently parked vehicle parkings records")
 	void testGetCurrentParkingRecords() {
 		List<Parking> parkings=new ArrayList<>();	
 		parkings.add(parking);
@@ -96,15 +103,19 @@ class ParkingControllerTest {
 		parking1.setEndDate(LocalDateTime.now().plusDays(2));
 		parkings.add(parking1);
 		when(parkingService.getParkingList()).thenReturn(parkings);
-		parkings=parkings.stream().filter(p -> p.getEndDate()==null).collect(Collectors.toList());
+		List<Parking> parkings1=parkings.stream().filter(p -> p.getEndDate()==null).collect(Collectors.toList());
 		List<Parking> parkingResponse = parkingController.getCurrentParkingRecords();
-		assertTrue(parkings.size() == parkingResponse.size() && parkings.containsAll(parkingResponse) && parkingResponse.containsAll(parkings));		
+		assertAll("parking current records",
+		        () -> assertEquals(parkings1.size(), parkingResponse.size()),
+		        () -> assertTrue(parkings1.containsAll(parkingResponse)));
+		
 	}
 
 	/**
 	 * Test method for {@link com.ezest.controller.ParkingController#getCurrentParkingWithLicencePlate(java.lang.String)}.
 	 */
 	@Test
+	@DisplayName("Getting currently parked vehicle parkings records by vehicle registration number")
 	void testGetCurrentParkingWithLicencePlate() {
 		when(parkingService.getCurrentParkedVehicleByLicencePlate(parking.getVehicleRegistrationNumber())).thenReturn(parking);
 		Parking currentParkingWithLicencePlate = parkingController.getCurrentParkingWithLicencePlate(parking.getVehicleRegistrationNumber());
@@ -112,6 +123,7 @@ class ParkingControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Throws error if vehicle not found using vehicle registration number")
 	void testGetCurrentParkingWithLicencePlateVehicleNotFound() {
 		when(parkingService.getCurrentParkedVehicleByLicencePlate(any(String.class))).thenReturn(null);
 		VehicleNotFoundException thrown = assertThrows(
@@ -127,6 +139,7 @@ class ParkingControllerTest {
 	 * Test method for {@link com.ezest.controller.ParkingController#checkInToParkingLot(com.ezest.model.Vehicle)}.
 	 */
 	@Test
+	@DisplayName("Parked vehicle")
 	void testCheckInToParkingLot() {
 		when(parkingService.createParkingRecord(vehicle)).thenReturn(parking);
 		ResponseEntity<Parking> checkInToParkingLot = parkingController.checkInToParkingLot(vehicle);
@@ -137,6 +150,7 @@ class ParkingControllerTest {
 	 * Test method for {@link com.ezest.controller.ParkingController#checkOutFromParkingLot(int)}.
 	 */
 	@Test
+	@DisplayName("Free parking and checkout vehicle")
 	void testCheckOutFromParkingLot() {
 		when(parkingService.updateParkingRecord(any(Integer.class))).thenReturn(parking);
 		ResponseEntity<Parking> checkOutFromParkingLot = parkingController.checkOutFromParkingLot(any(Integer.class));

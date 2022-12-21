@@ -21,13 +21,6 @@ public class ApiExceptionHandler {
         return new ResponseEntity<>("Parking record not found.", HttpStatus.NOT_FOUND);
     }
 
-
-    @ExceptionHandler({PriceNotFoundException.class})
-    public ResponseEntity<String> priceNotFoundException()
-    {
-        return new ResponseEntity<>("Price not found", HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler({VehicleAlreadyCheckedOutException.class})
     public ResponseEntity<String> alreadyCheckedOutException()
     {
@@ -44,12 +37,6 @@ public class ApiExceptionHandler {
     public ResponseEntity<String> vehicleNotFoundException()
     {
         return new ResponseEntity<>("Vehicle not found.", HttpStatus.NOT_FOUND);
-    }
-    
-    @ExceptionHandler({ParkingNameAlreadyExistException.class})
-    public ResponseEntity<String> parkingNameAlreadyExistException()
-    {
-        return new ResponseEntity<>("Parking Name Already Exist. Please Change parking Name", HttpStatus.BAD_REQUEST);
     }
     
     @ExceptionHandler({VehicleAlreadyExistException.class})

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,6 +48,7 @@ class ParkingLotControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Get all parking Lots")
 	void testCreateParkingLot() {
 		ParkingLot notExistParkingLot=null;
 		
@@ -57,6 +59,7 @@ class ParkingLotControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Throws error if  parking lot  already created with same name")
 	void testCreateParkingLotWithExistingName() {
 		Optional<ParkingLot> existingParkingLot = Optional.of((ParkingLot) parkingLot);
 		ParkingLotNameAlreadyExistException thrown = assertThrows(
@@ -69,6 +72,7 @@ class ParkingLotControllerTest {
 	}
 	
 	@Test
+	@DisplayName("Get all parking lots")
 	void testGetAllParkingLots() {
 		List<ParkingLot> parkingLots = new ArrayList<>();
 		when(parkingLotService.getParkingLots()).thenReturn(parkingLots);
