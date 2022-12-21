@@ -1,0 +1,691 @@
+{
+	"info": {
+		"_postman_id": "5ccc161b-cd83-42b7-b5f1-872e7db6b3e1",
+		"name": "Parking Lot System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Parking Lot",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Bike Lot\",\r\n    \"floor\": \"Ground Floor\",\r\n    \"lotVehicleType\": \"BIKE\",\r\n    \"lotSize\": 10,\r\n    \"price\": 30\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking_lot/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking_lot",
+						"create"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Parking Lot",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Bike Lot\",\r\n    \"floor\": \"Ground Floor\",\r\n    \"lotVehicleType\": \"BIKE\",\r\n    \"lotSize\": 10,\r\n    \"price\": 30\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking_lot/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking_lot",
+								"create"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 06:54:47 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 1,\n    \"name\": \"Bike Lot\",\n    \"floor\": \"Ground Floor\",\n    \"lotVehicleType\": \"BIKE\",\n    \"lotSize\": 10,\n    \"price\": 30\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all parking Lots",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking_lot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking_lot"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all parking Lots",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking_lot",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking_lot"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 06:56:22 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Bike Lot\",\n        \"floor\": \"Ground Floor\",\n        \"lotVehicleType\": \"BIKE\",\n        \"lotSize\": 10,\n        \"price\": 30\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Check In Vehcile",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7709\",\r\n    \"colour\": \"WHITE\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking/checkin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking",
+						"checkin"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Check In Vehcile",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7709\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking/checkin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking",
+								"checkin"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 07:35:28 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"parkingId\": 3,\n    \"parkingLot\": \"Bike Lot\",\n    \"vehicleRegistrationNumber\": \"MH15HQ7709\",\n    \"startDate\": \"2022-12-16T13:05:28.3393562\",\n    \"endDate\": null,\n    \"parkingStatus\": \"RESERVE\",\n    \"price\": 0\n}"
+				}
+			]
+		},
+		{
+			"name": "Checkout Vehcile",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7710\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking/checkout/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking",
+						"checkout",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Checkout Vehcile",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7710\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking/checkout/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking",
+								"checkout",
+								"2"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 09:27:53 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"parkingId\": 2,\n    \"parkingLot\": \"Bike Lot\",\n    \"vehicleRegistrationNumber\": \"MH15HQ7708\",\n    \"startDate\": \"2022-12-16T13:04:09.708871\",\n    \"endDate\": \"2022-12-16T14:56:39.0127336\",\n    \"parkingStatus\": \"EMPTY\",\n    \"price\": 30\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Check In Vehicles Parking details",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7708\",\r\n    \"colour\": \"WHITE\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking/current",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking",
+						"current"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get All Check In Vehicles Parking details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking/current",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking",
+								"current"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 09:36:07 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"parkingId\": 3,\n        \"parkingLot\": \"Bike Lot\",\n        \"vehicleRegistrationNumber\": \"MH15HQ7709\",\n        \"startDate\": \"2022-12-16T13:05:28.339356\",\n        \"endDate\": null,\n        \"parkingStatus\": \"RESERVE\",\n        \"price\": 0\n    },\n    {\n        \"parkingId\": 1552,\n        \"parkingLot\": \"Bike Lot\",\n        \"vehicleRegistrationNumber\": \"MH15HQ7708\",\n        \"startDate\": \"2022-12-16T14:59:09.033471\",\n        \"endDate\": null,\n        \"parkingStatus\": \"RESERVE\",\n        \"price\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Get Vehicle history & current details by vehicle number",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7710\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/parking/get/MH15HQ7708",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"parking",
+						"get",
+						"MH15HQ7708"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Vehicle history & current details by vehicle number",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7710\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BIKE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/parking/get/MH15HQ7708",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"parking",
+								"get",
+								"MH15HQ7708"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 09:37:12 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"parkingId\": 2,\n        \"parkingLot\": \"Bike Lot\",\n        \"vehicleRegistrationNumber\": \"MH15HQ7708\",\n        \"startDate\": \"2022-12-16T13:04:09.708871\",\n        \"endDate\": \"2022-12-16T14:56:39.012734\",\n        \"parkingStatus\": \"EMPTY\",\n        \"price\": 30\n    },\n    {\n        \"parkingId\": 1552,\n        \"parkingLot\": \"Bike Lot\",\n        \"vehicleRegistrationNumber\": \"MH15HQ7708\",\n        \"startDate\": \"2022-12-16T14:59:09.033471\",\n        \"endDate\": null,\n        \"parkingStatus\": \"RESERVE\",\n        \"price\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Create new vehicle in system",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7719\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BUS\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/vehicles/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"vehicles",
+						"create"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create new vehicle in system",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehicleRegistrationNumber\" : \"MH15HQ7718\",\r\n    \"colour\": \"BLACK\",\r\n    \"vehicleType\": \"BUS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/vehicles/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"vehicles",
+								"create"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 10:24:23 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 18,\n    \"vehicleRegistrationNumber\": \"MH15HQ7718\",\n    \"colour\": \"BLACK\",\n    \"vehicleType\": \"BUS\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all vehicles registered in the system",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/vehicles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"vehicles"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all vehicles registered in the system",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/vehicles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"vehicles"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Dec 2022 10:27:40 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"vehicleRegistrationNumber\": \"MH15HQ7720\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BUS\"\n    },\n    {\n        \"id\": 2,\n        \"vehicleRegistrationNumber\": \"MH15HQ7721\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BUS\"\n    },\n    {\n        \"id\": 3,\n        \"vehicleRegistrationNumber\": \"MH15HQ7722\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BUS\"\n    },\n    {\n        \"id\": 5,\n        \"vehicleRegistrationNumber\": \"MH15HQ7723\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BIKE\"\n    },\n    {\n        \"id\": 6,\n        \"vehicleRegistrationNumber\": \"MH15HQ7724\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BIKE\"\n    },\n    {\n        \"id\": 7,\n        \"vehicleRegistrationNumber\": \"MH15HQ7725\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"BIKE\"\n    },\n    {\n        \"id\": 9,\n        \"vehicleRegistrationNumber\": \"MH15HQ7726\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"CAR\"\n    },\n    {\n        \"id\": 10,\n        \"vehicleRegistrationNumber\": \"MH15HQ7727\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"CAR\"\n    },\n    {\n        \"id\": 11,\n        \"vehicleRegistrationNumber\": \"MH15HQ7728\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"CAR\"\n    },\n    {\n        \"id\": 13,\n        \"vehicleRegistrationNumber\": \"MH15HQ7729\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"TRUCK\"\n    },\n    {\n        \"id\": 14,\n        \"vehicleRegistrationNumber\": \"MH15HQ7730\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"TRUCK\"\n    },\n    {\n        \"id\": 15,\n        \"vehicleRegistrationNumber\": \"MH15HQ7731\",\n        \"colour\": \"WHITE\",\n        \"vehicleType\": \"TRUCK\"\n    },\n    {\n        \"id\": 17,\n        \"vehicleRegistrationNumber\": \"MH15HQ7719\",\n        \"colour\": \"BLACK\",\n        \"vehicleType\": \"BUS\"\n    },\n    {\n        \"id\": 18,\n        \"vehicleRegistrationNumber\": \"MH15HQ7718\",\n        \"colour\": \"BLACK\",\n        \"vehicleType\": \"BUS\"\n    }\n]"
+				}
+			]
+		}
+	]
+}
